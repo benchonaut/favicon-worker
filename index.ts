@@ -1,39 +1,97 @@
 import { Hono } from "https://deno.land/x/hono@v3.4.1/mod.ts";
+import { HTMLRewriter } from 'https://ghuc.cc/worker-tools/html-rewriter/index.ts'
 
 const app = new Hono();
 const kv = await Deno.openKv();
 
-// Redirect root URL
-app.get("/", (c) => c.redirect("/books"));
+// Get a favicon by url
+app.get("/single/:url", async (c) => {
+//  //const title = c.req.param("title");
+//  //const result = await kv.get(["books", title]);
+const init = {
+  headers: {
+    'content-type': 'text/html;charset=UTF-8',
+  },
+  redirect: 'follow',
+}
+ //let requestURL = new URL(c.request.url)
+ //const url = requestURL.searchParams.get('url')
+ //const targetURL = new URL(url.startsWith('https') ? url : 'https://' + url)
+ let favicon = ''
+  const response = await fetch(targetURL.origin, init).catch(() => {
+    console.log('failed')
+  })
 
-// List all books
-app.get("/books", async (c) => {
-  const iter = await kv.list({ prefix: ["books"] });
-  const books = [];
-  for await (const res of iter) books.push(res);
+  let newResponse = new HTMLRewriter()
+    .on('link[rel*="icon"]', {
+      async element(element) {
+        if (element.getAttribute('rel') === 'mask-icon' || favicon) return
+        favicon = element.getAttribute('href')
+        if (favicon.startsWith('/')) {
+          const prefix = favicon.startsWith('//') ? 'https:' : targetURL.origin
+          favicon = prefix + favicon
+        } else if (!favicon.startsWith('http')) {
+          favicon = targetURL.origin + '/' + favicon
+        }
+      },
+    })
+    .transform(response)
 
-  return c.json(books);
-});
+  await newResponse.text()
 
-// Create a book (POST body is JSON)
-app.post("/books", async (c) => {
-  const body = await c.req.json();
-  const result = await kv.set(["books", body.title], body);
+  if (!favicon) {
+    const fav = await fetch(targetURL.origin + '/favicon.ico')
+    if (fav.status === 200) {
+      const resss = new Response(fav.body, { headers: fav.headers })
+      resss.headers.set('Cache-Control', 'max-age=86400')
+
+      return resss
+    }
+
+    const defaultIcon = new Response(defaultIconSvg, {
+      headers: {
+        'content-type': 'image/svg+xml',
+      },
+    })
+
+    defaultIcon.headers.set('Cache-Control', 'max-age=36000')
+
+    return defaultIcon
+  }
+
+  const isRaw = requestURL.searchParams.get('raw')
+
+  if (isRaw !== null) {
+    const ic = new Response(favicon)
+    ic.headers.set('Cache-Control', 'max-age=86400')
+    return ic
+  }
+
+  let icon = await fetch(favicon)
+
+  if (favicon.includes(svgFavicon)) {
+    return new Response(decodeURI(favicon.split(svgFavicon)[1]), {
+      headers: {
+        'content-type': 'image/svg+xml',
+      },
+    })
+  }
+
+  const ct = icon.headers.get('content-type')
+
+  if (ct.includes('application') || ct.includes('text')) {
+    icon = await fetch(`https://www.google.com/s2/favicons?domain=${url}`)
+  }
+
+  const iconRes = new Response(icon.body)
+
+  iconRes.headers.set('Cache-Control', 'max-age=86400')
+  iconRes.headers.set('Content-Type', icon.headers.get('content-type'))
+//
+//  return iconRes
+//
+  let result="none"
   return c.json(result);
-});
-
-// Get a book by title
-app.get("/books/:title", async (c) => {
-  const title = c.req.param("title");
-  const result = await kv.get(["books", title]);
-  return c.json(result);
-});
-
-// Delete a book by title
-app.delete("/books/:title", async (c) => {
-  const title = c.req.param("title");
-  await kv.delete(["books", title]);
-  return c.text("");
 });
 
 Deno.serve(app.fetch);
