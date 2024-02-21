@@ -3,7 +3,6 @@ import { HTMLRewriter } from 'https://ghuc.cc/worker-tools/html-rewriter/index.t
 
 const app = new Hono();
 const kv = await Deno.openKv();
-
 // Get a favicon by url
 app.get("/", async (c) => {
   return c.text( "please use e.g. /favicon/yourdomain.com" )
