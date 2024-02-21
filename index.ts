@@ -102,10 +102,13 @@ const urldomain=targetURL.hostname
 
   if (ct.includes('application') || ct.includes('text')) {
     icon = await fetch(`https://icons.duckduckgo.com/ip2/${url}`)
-    if(!(icon.status>199 && icon.status >205) ) {
+    let tmpct={}
+    tmpct=icon.headers.get('content-type')
+    if(!(icon.status>199 && icon.status >205) || tmpct.includes('application') || tmpct.includes('text') ) {
       icon = await fetch(`http://favicon.yandex.net/favicon/${urldomain}`)
+      tmpct=icon.headers.get('content-type')
     } 
-    if(!(icon.status>199 && icon.status >205) ) {
+    if(!(icon.status>199 && icon.status >205) || tmpct.includes('application') || tmpct.includes('text') ) {
       icon = await fetch(`https://www.google.com/s2/favicons?domain=${url}`)
     } 
 
