@@ -7,6 +7,14 @@ const kv = await Deno.openKv();
 app.get("/", async (c) => {
   return c.text( "please use e.g. /favicon/yourdomain.com" )
 })
+app.use('/favicon/*', cors({
+  origin: ['https://gist-marks.pages.dev', 'https://marks.gistmarks.workers.dev'],
+  allowHeaders: ['Content-Type', 'Authorization'],
+  allowMethods: ['POST', 'GET', 'OPTIONS'],
+  exposeHeaders: ['Content-Length'],
+  maxAge: 600,
+  credentials: true,
+}))
 app.get("/favicon/*", async (c) => {
   const svgFavicon = 'data:image/svg+xml,'
 
