@@ -28,7 +28,7 @@ let realurl=""
   } else {
     realurl="http://"+tmpurl.path+c.req.search
   }
-return c.json({url: realurl});
+return c.json({url: realurl, tmp: tmpurl});
 
 const targetURL = new URL(url.startsWith('https') ? url : 'https://' + url)
  let favicon = ''
