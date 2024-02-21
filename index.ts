@@ -24,9 +24,9 @@ const tmpurl = new URL(requrl)
 //const tmpurl = new URL(url.startsWith('https') ? url : 'https://' + url)
 let realurl=""
   if(requrl.startsWith("https:")||requrl.startsWith("http:")) {
-    realurl=requrl.pathname+requrl.search
+    realurl=tmpurl.pathname+tmpurl.search
   } else {
-    realurl="http://"+requrl.path+requrl.search
+    realurl="http://"+tmpurl.path+c.req.search
   }
 return c.json({url: realurl});
 
