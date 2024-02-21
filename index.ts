@@ -18,7 +18,8 @@ const init = {
  //let requestURL = new URL(c.request.url)
  //const url = requestURL.searchParams.get('url')
   //const url = requestURL.searchParams.get('url')
-const url = c.req.param('url').replace('/domain/','')
+//const url = c.req.param('url').replace('/domain/','')
+const url=c.req.url.replace(/^(\/domain\/)/,"")
 
 //const tmpurl = new URL(url.startsWith('https') ? url : 'https://' + url)
 
