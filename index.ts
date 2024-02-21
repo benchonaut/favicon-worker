@@ -25,9 +25,9 @@ const requrl=tmpurl.pathname.replace(/^\/domain\//,"")
 
 let realurl=""
   if(requrl.startsWith("https:")||requrl.startsWith("http:")) {
-    realurl=tmpurl.pathname+tmpurl.search
+    realurl=requrl
   } else {
-    realurl="http://"+tmpurl.path+c.req.search
+    realurl="http://"+requrl
   }
 return c.json({url: realurl, tmp: tmpurl});
 
