@@ -15,12 +15,13 @@ const init = {
   },
   redirect: 'follow',
 }
- let requestURL = new URL(c.request.url)
+
+ //let requestURL = new URL(c.req.url)
  //const url = requestURL.searchParams.get('url')
   //const url = requestURL.searchParams.get('url')
-//const url = c.req.param('url').replace('/domain/','')
-//const inurl = new URL(c.req.url.startsWith('https') ? c.req.url : 'https://' + url)
-//const tmpurl = new URL(inurl)
+const url = c.req.param('url').replace('/domain/','')
+const inurl = new URL(c.req.url.startsWith('https') ? c.req.url : 'https://' + url)
+const tmpurl = new URL(inurl)
 const requrl=tmpurl.pathname.replace(/^\/domain\//,"")
 
 let realurl=""
