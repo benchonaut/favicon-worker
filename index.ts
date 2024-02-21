@@ -5,7 +5,13 @@ const app = new Hono();
 const kv = await Deno.openKv();
 
 // Get a favicon by url
-app.get("/domain/*", async (c) => {
+app.get("/", async (c) => {
+  return c.text( "please use e.g. /favicon/yourdomain.com" )
+}
+app.get("/", async (c) => {
+  return c.redirect("/")
+}
+app.get("/favicon/*", async (c) => {
   const svgFavicon = 'data:image/svg+xml,'
 
   const defaultIconSvg = `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="#4a5568">
@@ -23,10 +29,10 @@ const init = {
  //let requestURL = new URL(c.req.url)
  //const url = requestURL.searchParams.get('url')
   //const url = requestURL.searchParams.get('url')
-//const url = c.req.param('url').replace('/domain/','')
+//const url = c.req.param('url').replace('/favicon/','')
 let origURL = new URL(c.req.url)
 const requestURL=origURL
-const url = origURL.pathname.replace('/domain/','')+origURL.search
+const url = origURL.pathname.replace('/favicon/','')+origURL.search
 //const inurl = new URL(c.req.url.startsWith('https') ? c.req.url : 'https://' + url)
 //const tmpurl = new URL(inurl)
 //const requrl=tmpurl.pathname.replace(/^\/domain\//,"")+tmpurl.search
