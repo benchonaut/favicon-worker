@@ -9,7 +9,7 @@ app.get("/", async (c) => {
   return c.text( "please use e.g. /favicon/yourdomain.com" )
 })
 app.use('/favicon/*', cors({
-  origin: ['https://gist-marks.pages.dev', 'https://marks.gistmarks.workers.dev'],
+  origin: ['*'],
   allowHeaders: ['Content-Type', 'Authorization'],
   allowMethods: ['POST', 'GET', 'OPTIONS'],
   exposeHeaders: ['Content-Length'],
