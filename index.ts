@@ -26,7 +26,7 @@ let realurl=""
   if(tmpurl.startsWith("https:")||tmpurl.startsWith("http:")) {
     realurl=url.pathname+url.search
   } else {
-    realurl="http://"+url.pathname+url.search
+    realurl="http://"+url.path+url.search
   }
 return c.json({url: realurl});
 
