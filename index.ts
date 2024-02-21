@@ -29,10 +29,12 @@ let realurl=""
   } else {
     realurl="http://"+requrl
   }
-//return c.json({url: realurl, tmp: tmpurl});
+  //return c.json({url: realurl, tmp: tmpurl});
 
 //const targetURL = new URL(url.startsWith('https') ? url : 'https://' + url)
 const targetURL = new URL(realurl)
+const url=realurl
+
  let favicon = ''
   const response = await fetch(targetURL.origin, init).catch(() => {
     console.log('failed')
