@@ -24,6 +24,7 @@ let realurl=""
   if(url.startsWith("https:")||url.startsWith("http:")) {
     realurl=url.pathname+url.search
   }
+  return c.json({url: realurl});
 return realurl
 const targetURL = new URL(url.startsWith('https') ? url : 'https://' + url)
  let favicon = ''
