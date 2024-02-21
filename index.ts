@@ -19,15 +19,14 @@ const init = {
  //const url = requestURL.searchParams.get('url')
   //const url = requestURL.searchParams.get('url')
 //const url = c.req.param('url').replace('/domain/','')
-const url=c.req.url.replace(/^(\/domain\/)/,"")
-
+const requrl=c.req.url.replace(/^(\/domain\/)/,"")
+const tmpurl = new URL(requrl)
 //const tmpurl = new URL(url.startsWith('https') ? url : 'https://' + url)
-
-let realurl=""
+let url=""
   if(tmpurl.startsWith("https:")||tmpurl.startsWith("http:")) {
-    realurl=url.pathname+url.search
+    realurl=requrl.pathname+requrl.search
   } else {
-    realurl="http://"+url.path+url.search
+    realurl="http://"+requrl.path+requrl.search
   }
 return c.json({url: realurl});
 
