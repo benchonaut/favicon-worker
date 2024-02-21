@@ -7,9 +7,6 @@ const kv = await Deno.openKv();
 app.get("/", async (c) => {
   return c.text( "please use e.g. /favicon/yourdomain.com" )
 }
-app.get("/", async (c) => {
-  return c.redirect("/")
-}
 app.get("/favicon/*", async (c) => {
   const svgFavicon = 'data:image/svg+xml,'
 
@@ -133,5 +130,9 @@ const urldomain=targetURL.hostname
  // let result="none"
   //return c.json(result);
 });
+
+app.get("/*", async (c) => {
+  return c.redirect("/")
+}
 
 Deno.serve(app.fetch);
