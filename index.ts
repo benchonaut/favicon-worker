@@ -37,7 +37,7 @@ let realurl=""
 
 //const targetURL = new URL(url.startsWith('https') ? url : 'https://' + url)
 const targetURL = new URL(realurl)
-
+const urldomain=targetURL.hostname
  let favicon = ''
   const response = await fetch(targetURL.origin, init).catch(() => {
     console.log('failed')
@@ -90,7 +90,7 @@ const targetURL = new URL(realurl)
 
   let icon = await fetch(favicon)
 
-  if (favicon.includes(svgFavicon)) {
+  if (favicon.includes("svgFavicon")) {
     return new Response(decodeURI(favicon.split(svgFavicon)[1]), {
       headers: {
         'content-type': 'image/svg+xml',
@@ -101,7 +101,14 @@ const targetURL = new URL(realurl)
   const ct = icon.headers.get('content-type')
 
   if (ct.includes('application') || ct.includes('text')) {
-    icon = await fetch(`https://www.google.com/s2/favicons?domain=${url}`)
+    icon = await fetch(`https://icons.duckduckgo.com/ip2/${url}`)
+    if(!(icon.status>199 && icon.status >205) && !(icon.status 304)) {
+      icon = await fetch(`http://favicon.yandex.net/favicon/${urldomain}`)
+    } 
+    if(!(icon.status>199 && icon.status >205) && !(icon.status 304)) {
+      icon = await fetch(`https://www.google.com/s2/favicons?domain=${url}`)
+    } 
+
   }
 
   const iconRes = new Response(icon.body)
