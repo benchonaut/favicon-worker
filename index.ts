@@ -23,7 +23,7 @@ const requrl=c.req.url.replace(/^(\/domain\/)/,"")
 const tmpurl = new URL(requrl)
 //const tmpurl = new URL(url.startsWith('https') ? url : 'https://' + url)
 let url=""
-  if(tmpurl.startsWith("https:")||tmpurl.startsWith("http:")) {
+  if(requrl.startsWith("https:")||requrl.startsWith("http:")) {
     realurl=requrl.pathname+requrl.search
   } else {
     realurl="http://"+requrl.path+requrl.search
