@@ -15,7 +15,7 @@ const init = {
   },
   redirect: 'follow',
 }
- //let requestURL = new URL(c.request.url)
+ let requestURL = new URL(c.request.url)
  //const url = requestURL.searchParams.get('url')
   //const url = requestURL.searchParams.get('url')
 //const url = c.req.param('url').replace('/domain/','')
