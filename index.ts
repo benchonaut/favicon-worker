@@ -133,6 +133,6 @@ const urldomain=targetURL.hostname
 
 app.get("/*", async (c) => {
   return c.redirect("/")
-}
+})
 
 Deno.serve(app.fetch);
