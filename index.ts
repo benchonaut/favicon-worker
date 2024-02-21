@@ -1,6 +1,6 @@
-import { Hono } from "https://deno.land/x/hono@v3.4.1/mod.ts";
+import { Hono } from 'https://deno.land/x/hono/mod.ts'
+import { cors } from 'https://deno.land/x/hono/middleware.ts'
 import { HTMLRewriter } from 'https://ghuc.cc/worker-tools/html-rewriter/index.ts'
-import { cors } from 'hono/cors'
 
 const app = new Hono();
 const kv = await Deno.openKv();
