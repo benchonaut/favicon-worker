@@ -5,9 +5,9 @@ const app = new Hono();
 const kv = await Deno.openKv();
 
 // Get a favicon by url
-app.get("/single/:url", async (c) => {
+app.get("/domain/:url", async (c) => {
 
-//  //const title = c.req.param("title");
+  //  //const title = c.req.param("title");
 //  //const result = await kv.get(["books", title]);
 const init = {
   headers: {
@@ -19,7 +19,13 @@ const init = {
  //const url = requestURL.searchParams.get('url')
   //const url = requestURL.searchParams.get('url')
 const url = c.req.param('url')
- const targetURL = new URL(url.startsWith('https') ? url : 'https://' + url)
+  
+let realurl=""
+  if(url.startsWith("https:")||url.startsWith("http:")) {
+    realurl=url.pathname+url.search
+  }
+return realurl
+const targetURL = new URL(url.startsWith('https') ? url : 'https://' + url)
  let favicon = ''
   const response = await fetch(targetURL.origin, init).catch(() => {
     console.log('failed')
@@ -91,10 +97,10 @@ const url = c.req.param('url')
   iconRes.headers.set('Cache-Control', 'max-age=86400')
   iconRes.headers.set('Content-Type', icon.headers.get('content-type'))
 //
-//  return iconRes
+  return iconRes
 //
-  let result="none"
-  return c.json(result);
+ // let result="none"
+  //return c.json(result);
 });
 
 Deno.serve(app.fetch);
