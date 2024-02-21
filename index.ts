@@ -6,7 +6,7 @@ const kv = await Deno.openKv();
 // Get a favicon by url
 app.get("/", async (c) => {
   return c.text( "please use e.g. /favicon/yourdomain.com" )
-}
+})
 app.get("/favicon/*", async (c) => {
   const svgFavicon = 'data:image/svg+xml,'
 
