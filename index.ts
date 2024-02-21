@@ -6,6 +6,7 @@ const kv = await Deno.openKv();
 
 // Get a favicon by url
 app.get("/single/:url", async (c) => {
+
 //  //const title = c.req.param("title");
 //  //const result = await kv.get(["books", title]);
 const init = {
@@ -16,7 +17,8 @@ const init = {
 }
  //let requestURL = new URL(c.request.url)
  //const url = requestURL.searchParams.get('url')
- //const targetURL = new URL(url.startsWith('https') ? url : 'https://' + url)
+  //const url = requestURL.searchParams.get('url')
+ const targetURL = new URL(url.startsWith('https') ? url : 'https://' + url)
  let favicon = ''
   const response = await fetch(targetURL.origin, init).catch(() => {
     console.log('failed')
