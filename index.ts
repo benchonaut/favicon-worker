@@ -21,6 +21,7 @@ const init = {
   //const url = requestURL.searchParams.get('url')
 //const url = c.req.param('url').replace('/domain/','')
 let origURL = new URL(c.req.url)
+const requestURL=origURL
 const url = origURL.pathname.replace('/domain/','')+origURL.search
 //const inurl = new URL(c.req.url.startsWith('https') ? c.req.url : 'https://' + url)
 //const tmpurl = new URL(inurl)
