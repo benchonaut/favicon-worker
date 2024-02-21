@@ -91,7 +91,7 @@ const urldomain=targetURL.hostname
   let icon = await fetch(favicon)
 
   if (favicon.includes("svgFavicon")) {
-    return new Response(decodeURI(favicon.split(svgFavicon)[1]), {
+    return new Response(decodeURI(favicon.split("svgFavicon")[1]), {
       headers: {
         'content-type': 'image/svg+xml',
       },
