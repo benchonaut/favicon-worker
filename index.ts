@@ -5,7 +5,7 @@ const app = new Hono();
 const kv = await Deno.openKv();
 
 // Get a favicon by url
-app.get("/domain/:url", async (c) => {
+app.get("/domain/*", async (c) => {
 
   //  //const title = c.req.param("title");
 //  //const result = await kv.get(["books", title]);
@@ -18,14 +18,18 @@ const init = {
  //let requestURL = new URL(c.request.url)
  //const url = requestURL.searchParams.get('url')
   //const url = requestURL.searchParams.get('url')
-const url = c.req.param('url')
-  
+const url = c.req.param('url').replace('/domain/','')
+
+//const tmpurl = new URL(url.startsWith('https') ? url : 'https://' + url)
+
 let realurl=""
-  if(url.startsWith("https:")||url.startsWith("http:")) {
+  if(tmpurl.startsWith("https:")||tmpurl.startsWith("http:")) {
     realurl=url.pathname+url.search
+  } else {
+    realurl="http://"+url.pathname+url.search
   }
-  return c.json({url: realurl});
-return realurl
+return c.json({url: realurl});
+
 const targetURL = new URL(url.startsWith('https') ? url : 'https://' + url)
  let favicon = ''
   const response = await fetch(targetURL.origin, init).catch(() => {
