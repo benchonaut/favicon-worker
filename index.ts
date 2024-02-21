@@ -18,6 +18,7 @@ const init = {
  //let requestURL = new URL(c.request.url)
  //const url = requestURL.searchParams.get('url')
   //const url = requestURL.searchParams.get('url')
+const url = c.req.param('url')
  const targetURL = new URL(url.startsWith('https') ? url : 'https://' + url)
  let favicon = ''
   const response = await fetch(targetURL.origin, init).catch(() => {
